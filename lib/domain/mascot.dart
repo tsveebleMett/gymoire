@@ -4,22 +4,29 @@ import 'training_day.dart';
 /// Training days per week that count as reaching the weekly goal.
 const weeklyGoal = 3;
 
-enum HammyMood { ready, proud, resting }
+/// [record]: a new personal best today.
+enum MascotMood { ready, proud, record, resting }
 
-class HammyState {
-  const HammyState({required this.mood, required this.message, required this.weekProgress});
+class MascotState {
+  const MascotState({required this.mood, required this.message, required this.weekProgress});
 
-  final HammyMood mood;
+  final MascotMood mood;
   final String message;
 
-  /// Training days this week divided by [weeklyGoal], capped at 1. Hammy's
-  /// cheeks fill up with it.
+  /// Training days this week divided by [weeklyGoal], capped at 1. Shown
+  /// as the week's stack of logs.
   final double weekProgress;
 }
 
-/// What Hammy says on the home screen. Rest days count as part of training,
+/// What Bench Mark says on the home screen. Rest days count as part of training,
 /// so a long streak earns a rest suggestion instead of pressure.
-HammyState hammyFor({required Set<DateTime> trainedDays, required List<LoggedSet> todaySets, required DateTime now}) {
+/// [newRecords] names the exercises with a new best result today.
+MascotState mascotFor({
+  required Set<DateTime> trainedDays,
+  required List<LoggedSet> todaySets,
+  required DateTime now,
+  List<String> newRecords = const [],
+}) {
   final today = dayOf(now);
   final monday = weekStart(today);
   final thisWeek = trainedDays.where((d) => !d.isBefore(monday) && !d.isAfter(today)).length;
@@ -30,21 +37,28 @@ HammyState hammyFor({required Set<DateTime> trainedDays, required List<LoggedSet
     final volume = todaySets.fold<double>(0, (sum, s) => sum + s.volume);
     final sets = todaySets.length == 1 ? '1 Satz' : '${todaySets.length} Sätze';
     final moved = volume > 0 ? ', ${volume.round()} kg bewegt' : '';
-    return HammyState(mood: HammyMood.proud, message: 'Stark! $sets$moved. Meine Backen sind voll!', weekProgress: progress);
+    if (newRecords.isNotEmpty) {
+      return MascotState(
+        mood: MascotMood.record,
+        message: 'Neue Bestleistung bei ${newRecords.join(' und ')}! $sets$moved. Das schreib ich in Gold.',
+        weekProgress: progress,
+      );
+    }
+    return MascotState(mood: MascotMood.proud, message: 'Stark! $sets$moved. Das kommt ins Buch!', weekProgress: progress);
   }
   if (streak >= 4) {
-    return HammyState(
-      mood: HammyMood.resting,
+    return MascotState(
+      mood: MascotMood.resting,
       message: '$streak Tage am Stück! Heute ist Ruhetag, Muskeln wachsen in der Pause.',
       weekProgress: progress,
     );
   }
   if (thisWeek >= weeklyGoal) {
-    return HammyState(mood: HammyMood.proud, message: 'Wochenziel geschafft! Alles weitere ist Bonus.', weekProgress: progress);
+    return MascotState(mood: MascotMood.proud, message: 'Wochenziel geschafft! Alles weitere ist Bonus.', weekProgress: progress);
   }
   final left = weeklyGoal - thisWeek;
-  return HammyState(
-    mood: HammyMood.ready,
+  return MascotState(
+    mood: MascotMood.ready,
     message: left == 1 ? 'Noch 1 Training bis zum Wochenziel. Los geht\'s!' : 'Noch $left Trainings bis zum Wochenziel. Los geht\'s!',
     weekProgress: progress,
   );

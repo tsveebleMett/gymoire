@@ -1,4 +1,4 @@
-/// Core data of Hamstrong. Pure Dart, no Flutter imports.
+/// Core data of Gymoire. Pure Dart, no Flutter imports.
 library;
 
 enum MuscleGroup { chest, back, legs, shoulders, arms, core }

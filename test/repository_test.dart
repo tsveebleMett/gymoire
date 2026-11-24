@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hamstrong/data/training_repository.dart';
-import 'package:hamstrong/data/training_store.dart';
-import 'package:hamstrong/domain/models.dart';
+import 'package:gymoire/data/training_repository.dart';
+import 'package:gymoire/data/training_store.dart';
+import 'package:gymoire/domain/models.dart';
 
 void main() {
   final now = DateTime(2026, 11, 22, 18, 30);

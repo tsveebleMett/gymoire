@@ -66,7 +66,12 @@ class _NumberStepperState extends State<NumberStepper> {
         const SizedBox(height: 8),
         Row(
           children: [
-            _RoundButton(key: Key('${widget.label}-minus'), icon: Icons.remove_rounded, onTap: () => _bump(-widget.step)),
+            _RoundButton(
+              key: Key('${widget.label}-minus'),
+              icon: Icons.remove_rounded,
+              tooltip: '${widget.label} verringern',
+              onTap: () => _bump(-widget.step),
+            ),
             const SizedBox(width: 12),
             Expanded(
               child: TextField(
@@ -86,7 +91,12 @@ class _NumberStepperState extends State<NumberStepper> {
               ),
             ),
             const SizedBox(width: 12),
-            _RoundButton(key: Key('${widget.label}-plus'), icon: Icons.add_rounded, onTap: () => _bump(widget.step)),
+            _RoundButton(
+              key: Key('${widget.label}-plus'),
+              icon: Icons.add_rounded,
+              tooltip: '${widget.label} erhöhen',
+              onTap: () => _bump(widget.step),
+            ),
           ],
         ),
       ],
@@ -95,19 +105,23 @@ class _NumberStepperState extends State<NumberStepper> {
 }
 
 class _RoundButton extends StatelessWidget {
-  const _RoundButton({super.key, required this.icon, required this.onTap});
+  const _RoundButton({super.key, required this.icon, required this.tooltip, required this.onTap});
 
   final IconData icon;
+  final String tooltip;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) => Material(
-        color: furLight,
-        shape: const CircleBorder(),
+        color: context.palette.accentSoft,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
         child: InkWell(
-          customBorder: const CircleBorder(),
+          customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
           onTap: onTap,
-          child: SizedBox.square(dimension: 56, child: Icon(icon, color: cocoa, size: 30)),
+          child: SizedBox.square(
+            dimension: 56,
+            child: Icon(icon, color: context.palette.accent, size: 30, semanticLabel: tooltip),
+          ),
         ),
       );
 }

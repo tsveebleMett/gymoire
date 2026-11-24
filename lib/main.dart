@@ -9,5 +9,5 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   final repository = await TrainingRepository.open(await FileTrainingStore.create());
-  runApp(HamstrongApp(repository: repository));
+  runApp(GymoireApp(repository: repository));
 }

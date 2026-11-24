@@ -1,4 +1,4 @@
-package app.mafou.hamstrong
+package app.mafou.gymoire
 
 import io.flutter.embedding.android.FlutterActivity
 

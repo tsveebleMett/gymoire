@@ -113,11 +113,11 @@ class _ExerciseTile extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: const EdgeInsets.only(bottom: 8),
         child: Material(
-          color: cardColor,
-          borderRadius: BorderRadius.circular(18),
+          color: context.palette.card,
+          borderRadius: BorderRadius.circular(14),
           child: ListTile(
             key: Key('$keyPrefix-${exercise.id}'),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
             leading: MuscleBadge(group: exercise.muscleGroup),
             title: Text(exercise.name, style: const TextStyle(fontWeight: FontWeight.w700)),
             subtitle: Text(exercise.custom ? '${muscleGroupLabels[exercise.muscleGroup]} · eigene Übung' : muscleGroupLabels[exercise.muscleGroup]!),
@@ -127,7 +127,7 @@ class _ExerciseTile extends StatelessWidget {
       );
 }
 
-/// Colored disc with the muscle group's initial.
+/// Colored tile with the muscle group's abbreviation.
 class MuscleBadge extends StatelessWidget {
   const MuscleBadge({super.key, required this.group, this.size = 40});
 
@@ -141,8 +141,8 @@ class MuscleBadge extends StatelessWidget {
         alignment: Alignment.center,
         decoration: BoxDecoration(color: muscleColors[group], shape: BoxShape.circle),
         child: Text(
-          muscleGroupLabels[group]!.substring(0, 1),
-          style: TextStyle(fontFamily: displayFont, fontWeight: FontWeight.w600, fontSize: size * 0.45, color: cocoa),
+          muscleAbbreviations[group]!,
+          style: TextStyle(fontFamily: handFont, fontWeight: FontWeight.w700, fontSize: size * 0.5, color: Colors.white, height: 1),
         ),
       );
 }
