@@ -275,10 +275,10 @@ class _RecordTile extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: Material(
         color: context.palette.card,
-        borderRadius: BorderRadius.circular(14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3), side: BorderSide(color: context.palette.border)),
         child: ListTile(
           key: Key('record-${exercise.id}'),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
           leading: MuscleBadge(group: exercise.muscleGroup),
           title: Text(exercise.name, style: const TextStyle(fontWeight: FontWeight.w700)),
           subtitle: Text('${formatSet(best.bestSet)} am ${formatDayShort(best.day)} · $since'),

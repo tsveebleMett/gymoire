@@ -190,13 +190,13 @@ class _RecordBadge extends StatelessWidget {
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
     decoration: BoxDecoration(
       color: context.palette.highlight,
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(3),
       border: Border.all(color: const Color(0xFF8A6418), width: 1.2),
     ),
     child: const Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(Icons.auto_awesome, size: 15, color: Color(0xFF2A2018)),
+        Icon(Icons.auto_awesome, size: 15, color: inkOnGold),
         SizedBox(width: 3),
         Text(
           'PR',
@@ -205,7 +205,7 @@ class _RecordBadge extends StatelessWidget {
             fontWeight: FontWeight.w700,
             fontSize: 19,
             height: 1,
-            color: Color(0xFF2A2018),
+            color: inkOnGold,
           ),
         ),
       ],

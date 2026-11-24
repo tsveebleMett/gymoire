@@ -38,7 +38,8 @@ class _ExercisePickerState extends State<ExercisePicker> {
     final results = searchExercises(repo.exercises, _query, group: _group);
     final recent = filtering ? const <Exercise>[] : repo.recentExercises.take(5).toList();
 
-    return Scaffold(
+    return BookPage(child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(title: const Text('Übung wählen')),
       body: Column(
         children: [
@@ -99,7 +100,7 @@ class _ExercisePickerState extends State<ExercisePicker> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
 
@@ -114,10 +115,10 @@ class _ExerciseTile extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: 8),
         child: Material(
           color: context.palette.card,
-          borderRadius: BorderRadius.circular(14),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3), side: BorderSide(color: context.palette.border)),
           child: ListTile(
             key: Key('$keyPrefix-${exercise.id}'),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
             leading: MuscleBadge(group: exercise.muscleGroup),
             title: Text(exercise.name, style: const TextStyle(fontWeight: FontWeight.w700)),
             subtitle: Text(exercise.custom ? '${muscleGroupLabels[exercise.muscleGroup]} · eigene Übung' : muscleGroupLabels[exercise.muscleGroup]!),

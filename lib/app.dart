@@ -42,7 +42,7 @@ class _HomeShellState extends State<HomeShell> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        body: SafeArea(
+        body: BookPage(child: SafeArea(
           child: ListenableBuilder(
             listenable: widget.repository,
             builder: (context, _) => switch (_tab) {
@@ -52,16 +52,20 @@ class _HomeShellState extends State<HomeShell> {
               _ => WeightScreen(repository: widget.repository),
             },
           ),
-        ),
-        bottomNavigationBar: NavigationBar(
-          selectedIndex: _tab,
-          onDestinationSelected: (i) => setState(() => _tab = i),
-          destinations: const [
-            NavigationDestination(icon: Icon(Icons.fitness_center_rounded), label: 'Heute'),
-            NavigationDestination(icon: Icon(Icons.calendar_month_rounded), label: 'Kalender'),
-            NavigationDestination(icon: Icon(Icons.insights_rounded), label: 'Statistik'),
-            NavigationDestination(icon: Icon(Icons.monitor_weight_outlined), label: 'Gewicht'),
-          ],
+        )),
+        // The page edge: an ink rule above the tabs.
+        bottomNavigationBar: DecoratedBox(
+          decoration: BoxDecoration(border: Border(top: BorderSide(color: context.palette.border))),
+          child: NavigationBar(
+            selectedIndex: _tab,
+            onDestinationSelected: (i) => setState(() => _tab = i),
+            destinations: const [
+              NavigationDestination(icon: Icon(Icons.fitness_center_rounded), label: 'Heute'),
+              NavigationDestination(icon: Icon(Icons.calendar_month_rounded), label: 'Kalender'),
+              NavigationDestination(icon: Icon(Icons.insights_rounded), label: 'Statistik'),
+              NavigationDestination(icon: Icon(Icons.monitor_weight_outlined), label: 'Gewicht'),
+            ],
+          ),
         ),
       );
 }
