@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Hamstrong is a Flutter gym and body weight tracker with a hamster mascot; data is stored locally.
+Gymoire is a Flutter gym and body weight tracker with a strongman bear mascot (Bench Mark); data is stored locally.
 
 - Architecture, data model and known limits: [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md)
 - Setup and run: [README.md](README.md)

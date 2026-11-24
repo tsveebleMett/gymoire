@@ -1,5 +1,5 @@
-name: hamstrong
-description: "Hamstrong - gym workout and progress tracker with a hamster mascot (prototype)."
+name: gymoire
+description: "Gymoire - gym workout and progress tracker with Bench Mark the bear (prototype)."
 publish_to: "none"
 version: 0.1.0+1
 
@@ -13,17 +13,33 @@ dependencies:
   path_provider: ^2.1.5
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.14.4
   flutter_lints: ^6.0.0
   flutter_test:
     sdk: flutter
 
+# Launcher icons from the layers rendered by tool/render_logo_test.dart.
+# Regenerate with `dart run flutter_launcher_icons`.
+flutter_launcher_icons:
+  image_path: assets/logo/icon.png
+  android: true
+  min_sdk_android: 23
+  adaptive_icon_background: assets/logo/background.png
+  adaptive_icon_foreground: assets/logo/foreground.png
+  adaptive_icon_monochrome: assets/logo/monochrome.png
+  ios: true
+  remove_alpha_ios: true
+
 flutter:
   uses-material-design: true
+  assets:
+    - assets/fonts/OFL-Caveat.txt
+    - assets/fonts/OFL-CrimsonPro.txt
   fonts:
     # Variable fonts from github.com/google/fonts, SIL OFL 1.1, see assets/fonts/OFL-*.txt.
-    - family: Nunito
+    - family: Caveat
       fonts:
-        - asset: assets/fonts/Nunito-Variable.ttf
-    - family: Fredoka
+        - asset: assets/fonts/Caveat-Variable.ttf
+    - family: CrimsonPro
       fonts:
-        - asset: assets/fonts/Fredoka-Variable.ttf
+        - asset: assets/fonts/CrimsonPro-Variable.ttf

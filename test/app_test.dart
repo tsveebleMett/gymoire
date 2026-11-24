@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:hamstrong/app.dart';
-import 'package:hamstrong/data/training_repository.dart';
-import 'package:hamstrong/data/training_store.dart';
+import 'package:gymoire/app.dart';
+import 'package:gymoire/data/training_repository.dart';
+import 'package:gymoire/data/training_store.dart';
 import 'package:material_ui/material_ui.dart';
 
 void main() {
@@ -12,7 +12,7 @@ void main() {
     tester.view.devicePixelRatio = 2.6;
     addTearDown(tester.view.reset);
     final repo = repository ?? await TrainingRepository.open(MemoryTrainingStore(), clock: () => now);
-    await tester.pumpWidget(HamstrongApp(repository: repo));
+    await tester.pumpWidget(GymoireApp(repository: repo));
     await tester.pumpAndSettle();
     return repo;
   }
@@ -36,7 +36,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('25 kg × 8'), findsOneWidget);
-    expect(find.byKey(const Key('hammy-message')), findsOneWidget);
+    expect(find.byKey(const Key('mascot-message')), findsOneWidget);
     expect(find.textContaining('1 Satz, 200 kg bewegt'), findsOneWidget);
 
     // The next set starts with the last values.

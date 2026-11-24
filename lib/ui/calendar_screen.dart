@@ -68,7 +68,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         const SizedBox(height: 8),
         Container(
           padding: const EdgeInsets.all(12),
-          decoration: softSurface(),
+          decoration: cardSurface(context),
           child: _MonthGrid(
             month: _month,
             today: today,
@@ -113,11 +113,12 @@ class _MonthGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final leading = DateTime(month.year, month.month).weekday - 1;
     final days = DateTime(month.year, month.month + 1, 0).day;
+    final p = context.palette;
     final cells = <Widget>[
       for (final w in weekdayShort)
-        Center(child: Text(w, style: const TextStyle(fontFamily: displayFont, fontWeight: FontWeight.w500))),
+        Center(child: Text(w, style: TextStyle(fontWeight: FontWeight.w700, color: p.muted))),
       for (var i = 0; i < leading; i++) const SizedBox.shrink(),
-      for (var d = 1; d <= days; d++) _dayCell(DateTime(month.year, month.month, d)),
+      for (var d = 1; d <= days; d++) _dayCell(p, DateTime(month.year, month.month, d)),
     ];
     return GridView.count(
       crossAxisCount: 7,
@@ -128,7 +129,7 @@ class _MonthGrid extends StatelessWidget {
     );
   }
 
-  Widget _dayCell(DateTime day) {
+  Widget _dayCell(BookPalette p, DateTime day) {
     final groups = groupsByDay[day];
     final trained = groups != null;
     final future = day.isAfter(today);
@@ -142,11 +143,11 @@ class _MonthGrid extends StatelessWidget {
         padding: const EdgeInsets.all(2),
         child: Container(
           decoration: BoxDecoration(
-            color: trained ? furLight : null,
-            borderRadius: BorderRadius.circular(14),
+            color: trained ? p.accentSoft : null,
+            borderRadius: BorderRadius.circular(10),
             border: Border.all(
-              color: isSelected ? fur : (isToday ? furLight : Colors.transparent),
-              width: isSelected ? 2.5 : 1.5,
+              color: isSelected ? p.accent : (isToday ? p.muted : Colors.transparent),
+              width: isSelected ? 2.5 : 1.2,
             ),
           ),
           child: Column(
@@ -155,10 +156,9 @@ class _MonthGrid extends StatelessWidget {
               Text(
                 '${day.day}',
                 style: TextStyle(
-                  fontFamily: displayFont,
-                  fontWeight: trained || isToday ? FontWeight.w600 : FontWeight.w400,
+                  fontWeight: trained || isToday ? FontWeight.w900 : FontWeight.w500,
                   fontSize: 16,
-                  color: future ? cocoa.withValues(alpha: 0.3) : cocoa,
+                  color: future ? p.muted.withValues(alpha: 0.4) : (trained ? p.accent : p.ink),
                 ),
               ),
               const SizedBox(height: 3),
@@ -172,7 +172,7 @@ class _MonthGrid extends StatelessWidget {
                         width: 6,
                         height: 6,
                         margin: const EdgeInsets.symmetric(horizontal: 1),
-                        decoration: BoxDecoration(color: _dot(g), shape: BoxShape.circle),
+                        decoration: BoxDecoration(color: muscleColors[g], shape: BoxShape.circle),
                       ),
                   ],
                 ),
@@ -184,6 +184,4 @@ class _MonthGrid extends StatelessWidget {
     );
   }
 
-  /// Slightly darker than the pastel tint, so the dot shows on the fur-light cell.
-  static Color _dot(MuscleGroup g) => Color.lerp(muscleColors[g], cocoa, 0.25)!;
 }

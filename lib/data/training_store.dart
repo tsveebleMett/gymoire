@@ -28,7 +28,7 @@ class FileTrainingStore implements TrainingStore {
 
   static Future<FileTrainingStore> create() async {
     final dir = await getApplicationDocumentsDirectory();
-    return FileTrainingStore(File('${dir.path}/hamstrong.json'));
+    return FileTrainingStore(File('${dir.path}/gymoire.json'));
   }
 
   final File _file;

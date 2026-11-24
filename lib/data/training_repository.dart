@@ -38,6 +38,9 @@ class TrainingRepository extends ChangeNotifier {
     return null;
   }
 
+  /// All sets in no particular order.
+  List<LoggedSet> get allSets => List.unmodifiable(_sets);
+
   List<LoggedSet> setsOn(DateTime day) => [
         for (final s in _sets)
           if (sameDay(s.at, day)) s,

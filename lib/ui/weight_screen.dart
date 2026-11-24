@@ -1,9 +1,8 @@
-import 'dart:math';
-
 import 'package:material_ui/material_ui.dart';
 
 import '../data/training_repository.dart';
 import '../domain/models.dart';
+import 'charts.dart';
 import 'format.dart';
 import 'number_stepper.dart';
 import 'theme.dart';
@@ -27,10 +26,11 @@ class WeightScreen extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
       children: [
         Text('Körpergewicht', style: text.headlineMedium),
+        const HandUnderline(width: 190),
         const SizedBox(height: 12),
         Container(
           padding: const EdgeInsets.all(20),
-          decoration: softSurface(),
+          decoration: cardSurface(context),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -49,7 +49,7 @@ class WeightScreen extends StatelessWidget {
               ],
               if (weights.length >= 2) ...[
                 const SizedBox(height: 16),
-                SizedBox(height: 160, child: CustomPaint(size: Size.infinite, painter: WeightChartPainter(weights))),
+                TimeLineChart(points: [for (final w in weights) (w.day, w.kg)]),
               ],
               const SizedBox(height: 16),
               SizedBox(
@@ -87,10 +87,10 @@ class WeightScreen extends StatelessWidget {
             },
             child: Container(
               margin: const EdgeInsets.only(bottom: 8),
-              decoration: softSurface(color: Colors.transparent, radius: 18),
+              decoration: cardSurface(context, color: Colors.transparent),
               child: ListTile(
-                tileColor: cardColor,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                tileColor: context.palette.card,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 title: Text('${formatKg(w.kg)} kg', style: const TextStyle(fontWeight: FontWeight.w700)),
                 subtitle: Text(formatDayRelative(w.day, today)),
                 onTap: () => showWeightSheet(context, repository, day: w.day),
@@ -192,78 +192,4 @@ class _WeightSheetState extends State<_WeightSheet> {
       ),
     );
   }
-}
-
-/// Line chart of body weight over time; the x axis is real time, so gaps
-/// between entries keep their length.
-class WeightChartPainter extends CustomPainter {
-  WeightChartPainter(this.weights);
-
-  final List<BodyWeight> weights;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (weights.length < 2) return;
-    const labelWidth = 40.0;
-    final chart = Rect.fromLTRB(labelWidth, 8, size.width - 8, size.height - 8);
-    final minKg = weights.map((w) => w.kg).reduce(min);
-    final maxKg = weights.map((w) => w.kg).reduce(max);
-    // At least 2 kg of range, so tiny changes do not look dramatic.
-    final pad = max(1.0, (maxKg - minKg) * 0.15);
-    final lo = minKg - pad;
-    final hi = maxKg + pad;
-    final t0 = weights.first.day.millisecondsSinceEpoch.toDouble();
-    final t1 = weights.last.day.millisecondsSinceEpoch.toDouble();
-
-    Offset point(BodyWeight w) => Offset(
-          chart.left + chart.width * (w.day.millisecondsSinceEpoch - t0) / (t1 - t0),
-          chart.bottom - chart.height * (w.kg - lo) / (hi - lo),
-        );
-
-    final grid = Paint()
-      ..color = furLight
-      ..strokeWidth = 1;
-    for (final kg in [lo + pad, hi - pad]) {
-      final y = chart.bottom - chart.height * (kg - lo) / (hi - lo);
-      canvas.drawLine(Offset(chart.left, y), Offset(chart.right, y), grid);
-      final label = TextPainter(
-        text: TextSpan(text: formatKg((kg * 10).round() / 10), style: const TextStyle(fontSize: 12, color: cocoa)),
-        textDirection: TextDirection.ltr,
-      )..layout();
-      label.paint(canvas, Offset(0, y - label.height / 2));
-    }
-
-    final points = [for (final w in weights) point(w)];
-    final path = Path()..moveTo(points.first.dx, points.first.dy);
-    for (final p in points.skip(1)) {
-      path.lineTo(p.dx, p.dy);
-    }
-    final area = Path.from(path)
-      ..lineTo(points.last.dx, chart.bottom)
-      ..lineTo(points.first.dx, chart.bottom)
-      ..close();
-    canvas.drawPath(area, Paint()..color = fur.withValues(alpha: 0.12));
-    canvas.drawPath(
-      path,
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 3
-        ..strokeJoin = StrokeJoin.round
-        ..color = fur,
-    );
-    for (final p in points) {
-      canvas.drawCircle(p, 4, Paint()..color = Colors.white);
-      canvas.drawCircle(
-        p,
-        4,
-        Paint()
-          ..style = PaintingStyle.stroke
-          ..strokeWidth = 2.5
-          ..color = fur,
-      );
-    }
-  }
-
-  @override
-  bool shouldRepaint(WeightChartPainter old) => old.weights != weights;
 }
