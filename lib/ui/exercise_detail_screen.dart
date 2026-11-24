@@ -18,7 +18,8 @@ class ExerciseDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    return Scaffold(
+    return BookPage(child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(title: Text(exercise.name)),
       body: ListenableBuilder(
         listenable: repository,
@@ -95,8 +96,8 @@ class ExerciseDetailScreen extends StatelessWidget {
                           Expanded(child: Text(formatDayRelative(s.day, repository.now()), style: text.titleMedium)),
                           if (recordDays.contains(s.day))
                             Chip(
-                              avatar: const Icon(Icons.emoji_events_rounded, size: 18, color: Color(0xFF111318)),
-                              label: const Text('Bestleistung', style: TextStyle(color: Color(0xFF111318))),
+                              avatar: const Icon(Icons.emoji_events_rounded, size: 18, color: inkOnGold),
+                              label: const Text('Bestleistung', style: TextStyle(color: inkOnGold)),
                               backgroundColor: context.palette.highlight,
                               side: BorderSide.none,
                               visualDensity: VisualDensity.compact,
@@ -112,7 +113,7 @@ class ExerciseDetailScreen extends StatelessWidget {
           );
         },
       ),
-    );
+    ));
   }
 }
 

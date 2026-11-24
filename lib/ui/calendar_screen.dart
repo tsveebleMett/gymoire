@@ -144,7 +144,7 @@ class _MonthGrid extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: trained ? p.accentSoft : null,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(3),
             border: Border.all(
               color: isSelected ? p.accent : (isToday ? p.muted : Colors.transparent),
               width: isSelected ? 2.5 : 1.2,

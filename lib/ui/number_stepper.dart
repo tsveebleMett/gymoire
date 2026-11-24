@@ -114,9 +114,9 @@ class _RoundButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Material(
         color: context.palette.accentSoft,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
         child: InkWell(
-          customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+          customBorder: RoundedRectangleBorder(borderRadius: BorderRadius.circular(3)),
           onTap: onTap,
           child: SizedBox.square(
             dimension: 56,

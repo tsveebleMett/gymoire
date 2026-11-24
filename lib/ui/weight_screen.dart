@@ -87,10 +87,8 @@ class WeightScreen extends StatelessWidget {
             },
             child: Container(
               margin: const EdgeInsets.only(bottom: 8),
-              decoration: cardSurface(context, color: Colors.transparent),
+              decoration: cardSurface(context),
               child: ListTile(
-                tileColor: context.palette.card,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
                 title: Text('${formatKg(w.kg)} kg', style: const TextStyle(fontWeight: FontWeight.w700)),
                 subtitle: Text(formatDayRelative(w.day, today)),
                 onTap: () => showWeightSheet(context, repository, day: w.day),
